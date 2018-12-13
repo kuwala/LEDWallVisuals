@@ -30,7 +30,8 @@ float[] scottGraph = { 0.33333334, 0.29113925, 0.17721519, 0.19831224, 0.1856540
 // * * * * * * * * * Labels * * * * * * * *
 color labelColor = color(100, 200, 255);
 color labelAccentColor = color(100,240,220);
-color labelBGColor = color(0, 0, 100);
+color labelBGColor = color(0, 20, 100);
+color barWarmColor = color(255, 224, 0);
 
 int labelHeight = 26;
 int labelWidth = 192 - 8;
@@ -51,6 +52,7 @@ float currentFrames = 0;
 // Toggle Controll Variables
 boolean animationToggle = true;
 boolean rotateScreen = false;
+boolean barColorToggle = false;
 
 void setup() {
   fullScreen();
@@ -97,13 +99,27 @@ void draw() {
   label1Graphics.fill(labelColor);
   label1Graphics.rect(labelWidth/2, labelHeight/2, labelWidth, labelHeight);
   
+
   label1Graphics.fill(labelAccentColor);
   //label1Graphics.fill(0,255,200);
   label1Graphics.rect(labelWidth/2, labelHeight/2, labelWidth * sin(progress*TWO_PI), labelHeight * sin(progress*TWO_PI));
   
   label1Graphics.endDraw();
   image(label1Graphics,4,32);
-
+  
+  // label 1 Alt
+  
+  label1Graphics.beginDraw();
+  label1Graphics.noStroke();
+  label1Graphics.fill(labelColor);
+  label1Graphics.rect(labelWidth/2, labelHeight/2, labelWidth, labelHeight);
+  
+  label1Graphics.fill(labelAccentColor);
+  label1Graphics.ellipse(10,10, 30 * sin(progress*TWO_PI), 30 * sin(progress*TWO_PI) );
+  
+  label1Graphics.endDraw();
+  image(label1Graphics,4,32);
+  // end label 1 alt
   
 
   // Label 2
@@ -125,7 +141,7 @@ void draw() {
 
   // Background
   fill(127);
-  rect(4, 64 + 4, (64 * 9) - 8, 64 - 8);
+  //rect(4, 64 + 4, (64 * 9) - 8, 64 - 8);
 
   //translate to the buttom right corner of where the progress bargraph starts
   translate(0+4 - 320 * progress, 128 -(12));
@@ -135,7 +151,13 @@ void draw() {
   for (int i = 0; i < bars; i++) {
     //color based on time
     if ( (float)i / (float)bars <= progress) {
-      fill(255, 224, 0);
+      
+      if(barColorToggle) {
+        fill(barWarmColor);
+      } else {
+        fill(labelColor);
+      }
+      
     } else {
       fill(255);
     }
@@ -167,5 +189,8 @@ void keyPressed() {
   }
   if (key == '2') {
     animationToggle = !animationToggle;
+  }
+  if (key == '3') {
+    barColorToggle = !barColorToggle;
   }
 }

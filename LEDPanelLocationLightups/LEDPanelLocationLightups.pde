@@ -46,8 +46,8 @@ void draw() {
   fill(0);
   //rect(0,0,64,64); // bg
   ellipseMode(CENTER);
-  color currentColor = lerpColor(colorStart, colorEnd, sin(angle));
-  fill(currentColor);
+  //color currentColor = lerpColor(colorStart, colorEnd, sin(angle));
+  //fill(currentColor);
   fill(20,100,255,10);
   strokeWeight(2);
   stroke(0,255,200);
