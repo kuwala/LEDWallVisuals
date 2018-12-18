@@ -34,6 +34,10 @@ void draw() {
   colorMode(RGB);
   fill(255);
   text("Click to exit. \nMove mouse up and down to change color saturation \nMove mouse right and left to change color hue",64,300);
+  text("H S V: ",64, 360);
+  text(hue, 120,360);
+  text(sat, 180,360);
+  text("255.000", 240, 360);
   drawColorPicker();
 }
 void drawColorPicker() {
