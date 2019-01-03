@@ -28,10 +28,6 @@ float barWidth = 5;
 float[] scottGraph = { 0.33333334, 0.29113925, 0.17721519, 0.19831224, 0.18565401, 0.17299578, 0.22362868, 0.23206751, 0.25738397, 0.33333334, 0.4008439, 0.6118143, 0.8101266, 0.8101266, 0.8565401, 0.9704641, 0.9746835, 0.9409283, 0.87763715, 0.8101266, 0.721519, 0.814346, 0.814346, 0.7172996, 0.65400845, 0.65400845, 0.6329114, 0.60337555, 0.5527426, 0.42194092, 0.38396624, 0.35443038, 0.33333334, 0.32489452, 0.4177215, 0.4177215, 0.4177215, 0.36708862, 0.34177214, 0.4008439, 0.38818565, 0.45147678, 0.4599156, 0.38818565, 0.38818565, 0.34177214, 0.3164557, 0.31223628, 0.3206751, 0.3206751, 0.4599156, 0.46413502, 0.39240506, 0.32911393, 0.3206751, 0.35021096, 0.29113925, 0.21097046, 0.21097046, 0.21518987, 0.23206751, 0.2278481, 0.18565401, 0.14767933, 0.14767933, 0.16877638, 0.20675105, 0.21097046, 0.21097046, 0.1814346, 0.17721519, 0.17299578, 0.16877638, 0.15189873, 0.1392405, 0.1308017, 0.12658228, 0.10970464, 0.10548523, 0.101265825, 0.09704641, 0.09704641, 0.11392405, 0.18987341, 0.21518987, 0.21518987, 0.17299578, 0.1308017, 0.12236287, 0.12236287, 0.21097046, 0.21097046, 0.21097046, 0.14345992, 0.10970464, 0.09704641, 0.1308017, 0.16033755, 0.15189873, 0.11814346, 0.11814346, 0.12658228, 0.13502109, 0.11392405, 0.08438819, 0.06329114, 0.05907173, 0.07594936, 0.07594936, 0.07594936, 0.07594936, 0.07594936, 0.07172996, 0.07172996, 0.05907173, 0.05485232, 0.05485232, 0.050632913, 0.046413504, 0.042194095, 0.042194095, 0.03797468, 0.03797468, 0.03797468, 0.033755273, 0.029535865, 0.029535865, 0.021097047 }; //128 elements
 
 // * * * * * * * * * Labels * * * * * * * *
-//color labelColor = color(100, 200, 255);
-//color labelAccentColor = color(100,240,220);
-//color labelBGColor = color(0, 0,0);
-//color barWarmColor = color(255, 224, 0);
 
 color labelColor;
 color labelAccentColor;
@@ -43,15 +39,21 @@ int labelWidth = 192 - 8;
 
 // Ofscreen buffers to draw onto then draw in place
 PGraphics label1Graphics;
-// do a progress bar effect
-// occilate the bars a bit up and down.
-// Pulse the Label Light
 
 // * * * * * Progress * * * * *
-//int state = 0; // 0 - Scott Mills, 1 - LA, 2 - Tokyo
-float progress = 0;
-float scottMillsFrames = 30 * 60; // 30s * 60f/s = 1800frames
-float currentFrames = 0;
+
+// Time in millis
+int timer = 0; // timer to keep track of cpu millis
+int scottMillsTime = 34000; // 34000 millis
+int elapsedTime = 0;
+int numberSegments = bars; // each bar in the graph is a segment
+int segmentTime = floor(scottMillsTime / bars);
+int partialSegmentTime = 0; // scottMillsTime 
+
+//float progress = 0;
+//float scottMillsFrames = 30 * 60; // 30s * 60f/s = 1800frames
+//float currentFrames = 0;
+//float framesPerSegment = scottMillsFrames / bars;
 
 // Toggle Controll Variables
 boolean animationToggle = true;
@@ -75,6 +77,7 @@ void setup() {
 }
 void draw() {
   background(127);
+  fill(255);
   text(frameRate, 40, 40);
   text("Press 'r' or '1' '2' '3' to change settings", 100, 40);
   // Temporary Move screen into place
@@ -113,7 +116,7 @@ void draw() {
 
   label1Graphics.fill(labelAccentColor);
   //label1Graphics.fill(0,255,200);
-  label1Graphics.rect(labelWidth/2, labelHeight/2, labelWidth * sin(progress*TWO_PI), labelHeight * sin(progress*TWO_PI));
+  label1Graphics.rect(labelWidth/2, labelHeight/2, labelWidth , labelHeight);
   
   label1Graphics.endDraw();
   image(label1Graphics,4,32);
@@ -126,7 +129,7 @@ void draw() {
   label1Graphics.rect(labelWidth/2, labelHeight/2, labelWidth, labelHeight);
   
   label1Graphics.fill(labelAccentColor);
-  label1Graphics.ellipse(10,10, 30 * sin(progress*TWO_PI), 30 * sin(progress*TWO_PI) );
+  label1Graphics.ellipse(10,10, 30 , 30 );
   
   label1Graphics.endDraw();
   image(label1Graphics,4,32);
@@ -148,40 +151,75 @@ void draw() {
   // Create a shape with data points
   // Animate the shape Over time.
 
-  progress = currentFrames / scottMillsFrames; // Normalized progress
-
-  // Background
-  fill(127);
-  //rect(4, 64 + 4, (64 * 9) - 8, 64 - 8);
+  elapsedTime = millis() - timer;
+  float progressPercent = (float)elapsedTime / (float)scottMillsTime;
+  
+  int numberFullSegments = floor(elapsedTime / segmentTime);
+  float partial = ((float)elapsedTime - (float)numberFullSegments * (float)segmentTime);
 
   //translate to the buttom right corner of where the progress bargraph starts
   //translate(0+4 - 320 * progress, 128 -(12)); // moves left
   translate(0+4 , 128 -(12));
 
   // Draw the Graph
+  
+  
   noStroke();
-  for (int i = 0; i < bars; i++) {
-    //color based on time
-    if ( (float)i / (float)bars <= progress) {
-      
-      if(barColorToggle) {
+  // Draw filled in segments
+  for (int i = 0; i < numberFullSegments; i ++) {
+     if(barColorToggle) {
         fill(barWarmColor);
       } else {
         fill(labelColor);
       }
-      
-    } else {
-      fill(255);
-    }
     float h = scottGraph[i] * barMaxHeight;
     rect(i*barWidth, -1*h, barWidth, h );
   }
+  // Draw partial segment
+  if(numberFullSegments < numberSegments) {
+    // fill the color based on how filled the partial segment is
+    println((int)((partial / segmentTime)*255));
+    float part = ((partial / segmentTime));
+    float brightness = lerp(0,255,part);
+    color c =  color(136, 249, brightness);
+    fill(c);
+    int i = numberFullSegments;
+    float h = scottGraph[i] * barMaxHeight;
+    rect(i*barWidth, -1*h, barWidth, h );
+  }
+  // Draw Emtpy Segments if any
+  for (int i = numberFullSegments + 1; i < numberSegments; i ++) {
+    //fill(255);
+    //float h = scottGraph[i] * barMaxHeight;
+    //rect(i*barWidth, -1*h, barWidth, h );
+  }
+  
+  
+  
+  //for (int i = 0; i < bars; i++) {
+  //  //color based on time
+  //  float graphProg = (float)i / (float)bars;
+  //  if ( graphProg <= progressPercent) {
+      
+  //    if(barColorToggle) {
+  //      fill(barWarmColor);
+  //    } else {
+  //      fill(labelColor);
+  //    }
+      
+  //  } else {
+      
+  //    fill(255);
+  //  }
+  //  float h = scottGraph[i] * barMaxHeight;
+  //  rect(i*barWidth, -1*h, barWidth, h );
+  //}
 
   // update the frameRate counter
   if (animationToggle) {
-    currentFrames ++;
-    if (currentFrames > scottMillsFrames) {
-      currentFrames = 0;
+    //currentFrames ++;
+    if (elapsedTime > scottMillsTime) {
+      elapsedTime = 0;
     }
   }
 }
@@ -197,7 +235,8 @@ void keyPressed() {
     rotateScreen = !rotateScreen;
   }
   if (key == '1') {
-    currentFrames = 0;
+    elapsedTime = 0;
+    timer = millis();
   }
   if (key == '2') {
     animationToggle = !animationToggle;
