@@ -61,19 +61,20 @@ void setup() {
 
 }
 void draw() {
-  drawBackground();
-  drawDebugInfo();
+  //drawBackground();
+  background(0);
+  //drawDebugInfo();
   
-  // Move screen to led Panel Start X Y location
+  // Move drawing origin to led Panel Start X Y locations
   // and rotate screen to allign with led Panels
-  translate(100, 100);
+  //translate(100, 100);
   if (rotateScreen) {
     rotate(HALF_PI); 
     translate(0, -128);
   }
 
   // * * * * * sections * * * * *
- drawDebugSections();
+ //drawDebugSections();
 
   
  // * * * * * Labels * * * * *
@@ -96,7 +97,12 @@ void draw() {
   // Create a shape with data points
   // Animate the shape Over time.
 
+  
   elapsedTime = millis() - timer;
+  if(elapsedTime >= scottMillsTime) {
+    timer = millis();
+    elapsedTime = millis() - timer;
+  }
   float progressPercent = (float)elapsedTime / (float)scottMillsTime;
   
   int numberFullSegments = floor(elapsedTime / segmentTime);
@@ -123,14 +129,14 @@ void draw() {
   // Draw partial segment
   if(numberFullSegments < numberSegments) {
     // fill the color based on how filled the partial segment is
-    println((int)((partial / segmentTime)*255));
+    
     float part = ((partial / segmentTime));
     float brightness = lerp(0,255,part);
     color c =  color(136, 249, brightness);
     fill(c);
     int i = numberFullSegments;
     float h = scottGraph[i] * barMaxHeight;
-    rect(i*barWidth, -1*h, barWidth, h );
+    rect(i*barWidth, -1*h*part, barWidth, h );
   }
   // Draw Emtpy Segments if any
   for (int i = numberFullSegments + 1; i < numberSegments; i ++) {
