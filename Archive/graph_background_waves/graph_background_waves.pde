@@ -3,22 +3,32 @@ float[] scottGraph = { 0.33333334, 0.29113925, 0.17721519, 0.19831224, 0.1856540
 int bars = 114;
 Graph graph;
 Spring spring;
+SpringArray springArray;
 SpringGraph springGraph;
+
 int numberSprings = 40;
 void setup() {
   fullScreen();
   colorMode(HSB,255);
   spring = new Spring(200,200, 20);
   graph = new Graph(bars, scottGraph);
-  springGraph = new SpringGraph(width,numberSprings);
+  springArray = new SpringArray(width,numberSprings);
+  springGraph = new SpringGraph(bars, scottGraph);
 }
 
 void draw() {
-	background(127);
- graph.draw();
+	background(0);
+	fill(120);
+	text("Left and Right click mouse to flick the springs.", 32,16);
+	text("Rightclick - MouseX, selects spring, MouseY is flick force.",32,38);
+	// graph.update();
+ 	// graph.draw();
+ 	// graph.drawSprings();
   // update Graph
+  springArray.update();
+  springArray.draw();
   springGraph.update();
-  springGraph.draw();
+  springGraph.drawSprings();
   fill(255,255,255);
   rect(0,0,16,16);
   
@@ -28,8 +38,16 @@ void mousePressed() {
   if(mouseX < 16 && mouseY < 16) {
     exit();
   } 
-  	spring.flick();
+  if(mouseButton == LEFT) {
+	int pos = (int)map(mouseX, 0, width, 0, numberSprings);
+  	float force = map(mouseY, 0, height, 0,40);
+  	// springGraph.flick2(pos,force);
+  	springArray.flick(pos);
+  } else if (mouseButton == RIGHT) {
   	int pos = (int)map(mouseX, 0, width, 0, numberSprings);
-  	springGraph.bump(pos);
-  // }
+  	float force = map(mouseY, 0, height, 0,40);
+  	springArray.flick2(pos,force);
+  	// springGraph.flick(pos);
+  }
+  	
 }

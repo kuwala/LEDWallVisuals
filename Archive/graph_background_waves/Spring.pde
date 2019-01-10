@@ -1,6 +1,7 @@
 class Spring {
 	PVector position;
     float velocity;
+    float flickForce;
     float acceleration;
     float targetHeight;
     float w; // width
@@ -15,17 +16,21 @@ class Spring {
 		velocity = 0;
 		acceleration = 0;
 	}
+	void flick2(float force) {
+		flickForce += force;
+	}
 	void flick() {
 		h = targetHeight *1.5;
 	}
 	void update() {
 		float x = h - targetHeight;
 	    //spring structure
-	    float dampenning = 0.025*velocity;
-	    float k = 0.025;
-	    float acceleration = -k * x -dampenning;
+	    float dampenning = 0.015*velocity;
+	    float k = 0.0025;
+	    float springForce = -k * x -dampenning;
 	    
-	    
+	    acceleration = springForce + flickForce;
+	    flickForce = 0; // applied one time
 	    velocity += acceleration;
 	    h += velocity;
 	}
