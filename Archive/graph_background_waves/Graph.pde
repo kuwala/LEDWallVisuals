@@ -15,8 +15,10 @@ class Graph {
   int partialSegmentTime;// scottMillsTime
   float partial;
   int fullSegments;
+  SpringGraph springs;
   
   Graph(int _bars, float[] array) {
+    springs = new SpringGraph(500,100); // 500 width, 100 springs 5px spread
     bars = _bars;//114;
     scottGraph = array;
     barMaxHeight = 32;
@@ -34,6 +36,7 @@ class Graph {
 
   }
   void update() {
+    springs.update();
     
   }
   
@@ -50,6 +53,7 @@ class Graph {
     partial = ((float)elapsedTime - (float)fullSegments * (float)segmentTime); 
     
     //translate to the buttom right corner of where the progress bargraph starts
+    pushMatrix();
     translate(paddingLeft,paddingTop);
     
     //* * * * * * * * * * * * * Draw Progress Bar * * * * * * * * * * * * */
@@ -87,7 +91,7 @@ class Graph {
       //float h = scottGraph[i] * barMaxHeight;
       //rect(i*barWidth, -1*h, barWidth, h );
     }
-    
+    popMatrix();
   } // end draw
   
 }
