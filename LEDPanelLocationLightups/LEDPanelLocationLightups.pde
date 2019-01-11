@@ -11,7 +11,7 @@ float y = 32;
 
 float minSize = 1;
 float maxSize = 64;
-float targetSize =maxSize;
+float targetSize = maxSize;
 float size = minSize;
 float easing = 0.05;
 color colorStart = color(64,180,255,255);

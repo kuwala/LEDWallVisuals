@@ -21,23 +21,18 @@ Panels Size: 64*32 each
 
 int scottBars = 114; // 128 - 14 // 576pixels wide area
 float[] scottData = { 0.33333334, 0.29113925, 0.17721519, 0.19831224, 0.18565401, 0.17299578, 0.22362868, 0.23206751, 0.25738397, 0.33333334, 0.4008439, 0.6118143, 0.8101266, 0.8101266, 0.8565401, 0.9704641, 0.9746835, 0.9409283, 0.87763715, 0.8101266, 0.721519, 0.814346, 0.814346, 0.7172996, 0.65400845, 0.65400845, 0.6329114, 0.60337555, 0.5527426, 0.42194092, 0.38396624, 0.35443038, 0.33333334, 0.32489452, 0.4177215, 0.4177215, 0.4177215, 0.36708862, 0.34177214, 0.4008439, 0.38818565, 0.45147678, 0.4599156, 0.38818565, 0.38818565, 0.34177214, 0.3164557, 0.31223628, 0.3206751, 0.3206751, 0.4599156, 0.46413502, 0.39240506, 0.32911393, 0.3206751, 0.35021096, 0.29113925, 0.21097046, 0.21097046, 0.21518987, 0.23206751, 0.2278481, 0.18565401, 0.14767933, 0.14767933, 0.16877638, 0.20675105, 0.21097046, 0.21097046, 0.1814346, 0.17721519, 0.17299578, 0.16877638, 0.15189873, 0.1392405, 0.1308017, 0.12658228, 0.10970464, 0.10548523, 0.101265825, 0.09704641, 0.09704641, 0.11392405, 0.18987341, 0.21518987, 0.21518987, 0.17299578, 0.1308017, 0.12236287, 0.12236287, 0.21097046, 0.21097046, 0.21097046, 0.14345992, 0.10970464, 0.09704641, 0.1308017, 0.16033755, 0.15189873, 0.11814346, 0.11814346, 0.12658228, 0.13502109, 0.11392405, 0.08438819, 0.06329114, 0.05907173, 0.07594936, 0.07594936, 0.07594936, 0.07594936, 0.07594936, 0.07172996, 0.07172996, 0.05907173, 0.05485232, 0.05485232, 0.050632913, 0.046413504, 0.042194095, 0.042194095, 0.03797468, 0.03797468, 0.03797468, 0.033755273, 0.029535865, 0.029535865, 0.021097047 }; //128 elements
-
+int scottTime = 34000; // 34 seconds - in millis
 // * * * * * * * * * Labels * * * * * * * *
 Label label1;
 Label label2;
 Label label3;
                                                         
 // * * * * * Progress * * * * *
-Graph scottGraph;
+SpringGraph scottGraph;
 
-//// Time in millis
-//int timer = 0; // timer to keep track of cpu millis
-//int scottMillsTime = 34000; // 34000 millis
-//int elapsedTime = 0;
-//int numberSegments = bars; // each bar in the graph is a segment
-//int segmentTime = floor(scottMillsTime / bars);
-//int partialSegmentTime = 0; // scottMillsTime 
 
+// * * * * * MapWall * * * * *
+MapWall mapWall;
 // Toggle Controll Variables
 boolean animationToggle = true;
 boolean rotateScreen = true;
@@ -53,27 +48,37 @@ void setup() {
   label2 = new Label();
   label3 = new Label();
   
-  scottGraph = new Graph(scottBars, scottData);
+  scottGraph = new SpringGraph(scottBars, scottData, scottTime);
+  mapWall = new MapWall(800,100);
 
 }
 void draw() {
+  /* * * * * UPDATES * * * * */
+  scottGraph.update();
+  mapWall.update();
+
+  /* * * * * DRAWS * * * * * */
   //drawBackground();
   background(0);
-  //drawDebugInfo();
+  drawDebugInfo();
   
+  
+  /* * * * * * * * * * * * * * * * * * * * * */ 
+  /* * * * * VISULIZATIONS WALL * * * * * * */
+  /* * * * * * * * * * * * * * * * * * * * */ 
   // Move drawing origin to led Panel Start X Y locations
   // and rotate screen to allign with led Panels
-  //translate(100, 100);
+  // translate(100, 100);
+  pushMatrix();
   if (rotateScreen) {
     rotate(HALF_PI); 
     translate(0, -128);
   }
-
   // * * * * * sections * * * * *
- //drawDebugSections();
+  drawDebugSections();
 
   
- // * * * * * Labels * * * * *
+  // * * * * * Labels * * * * *
   pushMatrix();
   // padding adjustment
   translate(0, 9);
@@ -85,13 +90,16 @@ void draw() {
   // move to section 3
   translate(192, 0);
   label1.draw();
-
-
   popMatrix();
 
-
-  // Draw the Graph
+  // * * * * * Graph * * * * *
   scottGraph.draw();
+  popMatrix();
+  // * * * * * MapWall * * * * *
+  mapWall.draw();
+
+  
+
 
 }
 void mousePressed() {

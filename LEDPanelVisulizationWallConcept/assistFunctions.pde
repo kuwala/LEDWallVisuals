@@ -14,12 +14,15 @@ void drawBackground() {
 /* * * * * * * * * * * DEBUG * * * * * * * * * * */
 void drawDebugInfo() {
   fill(255);
+  pushMatrix();
+  translate(32,700);
+  text("FPS",4,40);
   text(frameRate, 40, 40);
   text(mouseX, 100, 40);
   text(mouseY, 130, 40);
 
-
-  text("Press 'r' or '1' '2' '3' to change settings", 160, 40); 
+  text("Press 'r' to rotate the visulization wall section", 160, 40); 
+  popMatrix();
 }
 
 void drawDebugSections() {
