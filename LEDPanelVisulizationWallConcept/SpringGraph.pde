@@ -30,7 +30,7 @@ class SpringGraph {
     scottGraph = dataArray;
     barMaxHeight = 32;
     barWidth = 4;
-    totalWidth = 572;
+    totalWidth = 512;
     paddingLeft = 4;
     paddingTop = 128 -12;
     partial = 0;

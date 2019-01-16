@@ -27,9 +27,9 @@ void drawDebugInfo() {
 
 void drawDebugSections() {
   fill(120);
-  rect(0, 0, 192, 128);
+  rect(0, 0, 171, 128);
   fill(90);
-  rect(192, 0, 192, 128);
+  rect(171, 0, 170, 128);
   fill(20);
-  rect(384, 0, 192, 128);
+  rect(341, 0, 170, 128);
 }

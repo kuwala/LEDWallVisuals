@@ -23,7 +23,7 @@ class Label {
 
     yellowColor = color(39, 242, 255); // orange/yellow
     h = 26; // height
-    w = 192 - 8; // width
+    w = 170 - 8; // width
     paddingLeft = 4;
     paddingTop = 32;
     
