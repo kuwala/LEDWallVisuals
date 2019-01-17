@@ -8,9 +8,9 @@ PImage img1;
 PImage img2;
 PImage img3;
 
-int bars = 576/2;
+int bars = 576/4;
 float barMaxHeight = 237;
-float barWidth = 2;
+float barWidth = 4;
 
 float[] graph = new float[bars];
 
@@ -18,6 +18,9 @@ float[] graph = new float[bars];
 void setup() {
   size(800,237);
   img1 = loadImage("Scott.png"); //800x237
+  img2 = loadImage("Japan.png"); //800x237
+  img3 = loadImage("NorthRidge.png"); //800x237
+
   for(int i = 0; i < bars; i ++ ) {
     graph[i] = (float)i / (bars);
   }
@@ -34,7 +37,7 @@ void draw() {
   // specify number of bars
   // draw a characture of the graph with the mouse
   // console prints an array compatible list of values
-  image(img1, 0,0);
+  image(img2, 0,0);
   //image(img1, 0,0,576,32);
   
   translate(0,height);

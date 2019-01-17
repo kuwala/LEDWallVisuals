@@ -55,6 +55,9 @@ class SpringGraph {
     lastFlickedSpring = -1;
 
   }
+  void reset() {
+    timer = millis(); 
+  }
   void update() {
     for (Spring i : springs) {
       i.update();

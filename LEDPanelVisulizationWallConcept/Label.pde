@@ -45,6 +45,9 @@ class Label {
   void turnOff() {
     state = 0; 
   }
+  void turnDebug() {
+    state = 2; 
+  }
   void draw() {
     if(state == 0) {
       
