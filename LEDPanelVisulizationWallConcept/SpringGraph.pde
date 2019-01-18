@@ -89,6 +89,7 @@ class SpringGraph {
     colorMode(HSB,255);
     for (int i = 0; i < fullSegments; ++i) {
       fill(136, 249, 255);
+      // fill(39, 242, 255);
       float h = springs.get(i).getH();
       rect(i*barWidth, -1*h, barWidth, h);
     }

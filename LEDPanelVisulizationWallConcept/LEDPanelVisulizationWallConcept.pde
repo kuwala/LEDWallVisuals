@@ -40,13 +40,12 @@ Label label3;
 // * * * * * Progress * * * * *
 SpringGraph scottGraph;
 
-
 // * * * * * MapWall * * * * *
 MapWall mapWall;
+ActivityWall activityWall;
+
 // Toggle Controll Variables
-boolean animationToggle = true;
 boolean rotateScreen = true;
-boolean barColorToggle = false;
 
 
 void setup() {
@@ -62,13 +61,14 @@ void setup() {
   
   scottGraph = new SpringGraph(scottBars, scottData, scottTime);
   mapWall = new MapWall(800,100);
+  activityWall = new ActivityWall(400,0);
 
 }
 void draw() {
   
   
   /* * * * * UPDATES * * * * */
-  mapWall.update();
+  // mapWall.update();
 
   /* * * * * DRAWS * * * * * */
   //drawBackground();
@@ -128,11 +128,12 @@ void draw() {
   }
   popMatrix();
 
-  // * * * * * MapWall * * * * *
   mapWall.draw();
+  activityWall.draw();
 
 
-}
+
+} // end of main draw() 
 void mousePressed() {
   if(mouseX < 100) {
     exit();
@@ -143,6 +144,7 @@ void keyPressed() {
   //background(127);
   if (key == 'r') {
     rotateScreen = !rotateScreen;
+    activityWall.toggleRotation();
   }
 
   if (key == '0') {
