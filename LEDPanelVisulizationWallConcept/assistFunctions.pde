@@ -15,13 +15,14 @@ void drawBackground() {
 void drawDebugInfo() {
   fill(255);
   pushMatrix();
-  translate(32,700);
-  text("FPS",4,40);
-  text(frameRate, 40, 40);
-  text(mouseX, 100, 40);
-  text(mouseY, 130, 40);
+  translate(32,710);
+  text("FPS",4,0);
+  text(frameRate, 40, 0);
+  text(mouseX, 100, 0);
+  text(mouseY, 130, 0);
 
-  text("Press 'r' to rotate the visulization wall section", 160, 40); 
+  text("Press 'r' to rotate the visualization wall section", 160, 0); 
+  text("Press '1,2,3'' to change graph.'6,7,8,9' to change activity'. Esc to exit.", 4,24);
   popMatrix();
 }
 

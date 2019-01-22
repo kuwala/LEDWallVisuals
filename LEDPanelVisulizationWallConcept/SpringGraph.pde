@@ -4,6 +4,7 @@ class SpringGraph {
   int paddingLeft;
   int paddingTop;
   int bars;
+  int colorType;
   float barMaxHeight;
   float barWidth;
   float totalWidth;
@@ -34,6 +35,7 @@ class SpringGraph {
     paddingLeft = 4;
     paddingTop = 128 -12;
     partial = 0;
+    colorType = 0;
     
     timer = 0; // timer to keep track of cpu millis
     scottMillsTime = graphTime; // 34000 millis
