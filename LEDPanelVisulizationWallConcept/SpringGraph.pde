@@ -25,6 +25,7 @@ class SpringGraph {
   int lastFlickedSpring;
 
 
+
   SpringGraph(int _bars, float[] dataArray, int graphTime, int _colorType) {
 
     bars = _bars;//114;

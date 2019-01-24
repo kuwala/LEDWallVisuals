@@ -12,10 +12,17 @@ class VisualizationWall {
   int tohokuTime;
   int northRidgeTime;
   int state;
+  int animationState;
 
   SpringGraph scottGraph;
   SpringGraph tohokuGraph;
   SpringGraph northRidgeGraph;
+
+  int scottTimer;
+  int scottStartTime;
+  int scottCompleteTime;
+  int scottActivityStartTime;
+  int scottFadeOutTime;
 
   Label label1;
   Label label2;
@@ -28,98 +35,138 @@ class VisualizationWall {
     northRidgeBars = 128;
     tohokuBars = 128;
 
-    scottTime = 34000; // 34 seconds - in millis
+    scottTime = 25000; // 34 seconds - in millis
     tohokuTime = 18000;
     northRidgeTime = 24000;
-    state = 1; // 0 - attractor, 1, 2, 3. quakes
-
+    state = 0; // 0 - attractor, 1 - Scott, 2 - Tohoku, 3 - NorthRidge. quakes
+    animationState = 0; // o - waiting for start dealy, 1 - started drawing graph
     rotateScreen = true;
 
     scottGraph = new SpringGraph(scottBars, scottData, scottTime, 1);
     tohokuGraph = new SpringGraph(tohokuBars, tohokuData, tohokuTime, 2);
     northRidgeGraph = new SpringGraph(northRidgeBars, northRidgeData, northRidgeTime, 3);
+    scottTimer = 0;
+    scottStartTime = 5000;
+    scottActivityStartTime = 15000;
+    scottFadeOutTime = 28000;
+    scottCompleteTime = 30000;
 
     label1 = new Label(1);
-    label1.turnOn();
+    label1.turnOff();
     label2 = new Label(2);
-    label2.turnDebug();
+    label2.turnOff();
     label3 = new Label(3);
-    label3.turnDebug();
+    label3.turnOff();
   }
   void draw() {
-  /* * * * * * * * * * * * * * * * * * * * * */ 
-  /* * * * * VISULIZATIONS WALL * * * * * * */
-  /* * * * * * * * * * * * * * * * * * * * */ 
-  // Move drawing origin to led Panel Start X Y locations
-  // and rotate screen to allign with led Panels
-  // translate(100, 100);
-  pushMatrix();
-  if (rotateScreen) {
-    // rotate upside down 
-    //rotate side ways
-    translate(512,0);
-    rotate(HALF_PI*3); 
-    translate(-512,-512);
-  }
-  // * * * * * sections * * * * *
-  // drawDebugSections();
+    /* * * * * * * * * * * * * * * * * * * * * */ 
+    /* * * * * VISULIZATIONS WALL * * * * * * */
+    /* * * * * * * * * * * * * * * * * * * * */ 
+    // Move drawing origin to led Panel Start X Y locations
+    // and rotate screen to allign with led Panels
+    // translate(100, 100);
+    pushMatrix();
+    if (rotateScreen) {
+      translate(512,0);
+      rotate(HALF_PI*3); 
+      translate(-512,-512);
+    }
+    // drawDebugSections();
 
-  
-  // * * * * * Labels * * * * *
-  if(state==0) {
-    //attract
-  } else if (state==1) {
-    //scott
-    scottGraph.update();
-    label1.turnOn();
-    label2.turnOff();
-    label3.turnOff();
-  } else if (state == 2) {
-    // north ridge
-    tohokuGraph.update();
-    label1.turnOff();
-    label2.turnOn();
-    label3.turnOff();
-  } else if (state == 3) {
-    // tohoku
-    northRidgeGraph.update();
-    label1.turnOff();
-    label2.turnOff();
-    label3.turnOn();
-  }
-  pushMatrix();
-  translate(1, 9); // move to section 1
-  label1.draw();
-  translate(170, 0); // move to section 2
-  label2.draw();
-  translate(170, 0); // move to section 3
-  label3.draw();
-  popMatrix();
+    
+    if(state==0) {
+      //attractor
+    } else if (state==1) {
+      //scott
+      // if delayTime passed draw
+      if(animationState == 0) {
+        // start the graph
+        if(millis() - scottTimer > scottStartTime) {
+        scottGraph.reset();
+        animationState = 1;
+        }
+      } else if (animationState == 1){
+        if(millis() - scottTimer > scottActivityStartTime) {
+          //start activity wall Animation
+          animationState = 2;
+        }
+        scottGraph.update();
+        scottGraph.draw();
+      } else if (animationState == 2){
+        if(millis() - scottTimer > scottFadeOutTime) {
+          //fade out graph
+          //fade out label
+          label1.fadeOut();
+          animationState = 3;
+        }
+        scottGraph.update();
+        scottGraph.draw();
+      } else if (animationState == 3){
+        if(millis() - scottTimer > scottCompleteTime) {
+          // return to the attracktor
+          state = 0;
+        }
+        scottGraph.update();
+        scottGraph.draw();
+      }
 
-  // * * * * * Graph * * * * *
-  if(state== 1) {
-    scottGraph.draw();
-  } else if (state == 2) {
-    tohokuGraph.draw();
-  } else if (state == 3) {
-    northRidgeGraph.draw();
-  }
-  popMatrix();
-  println("drawing");
+    } else if (state == 2) {
+      // north ridge
+      tohokuGraph.update();
+      tohokuGraph.draw();
+      
+    } else if (state == 3) {
+      // tohoku
+      northRidgeGraph.update();
+      northRidgeGraph.draw();
+      
+    }
 
-  
-} // end draw()
+    
+    pushMatrix();
+    translate(1, 9); // move to section 1
+    label1.draw();
+    translate(170, 0); // move to section 2
+    label2.draw();
+    translate(170, 0); // move to section 3
+    label3.draw();
+    popMatrix();
+
+    popMatrix(); // end rotation
+    
+  } // end draw()
   void toggleRotation() {
     rotateScreen = !rotateScreen;
   }
+  void turnOffLabels() {
+    label1.turnOff();
+    label2.turnOff();
+    label3.turnOff();
+  }
+  void resetTimers() {
+    scottTimer = millis();
+  }
   void setState(int _state) {
-    if(state == 1) {
+    // start a quake animation
+    state = _state;
+    if(state == 1) { 
       scottGraph.reset();
+      scottTimer = millis();
+      turnOffLabels();
+      label1.fadeIn();
     } else if(state == 2) {
       tohokuGraph.reset();
+      turnOffLabels();
+      label2.fadeIn();
     } else if(state == 3) {
       northRidgeGraph.reset();
+      turnOffLabels();
+      label3.fadeIn();
+    } else if (state == 0) {
+      label1.turnOff();
+      label2.turnOff();
+      label3.turnOff();
     }
-    state = _state;
+    
   }
 }
