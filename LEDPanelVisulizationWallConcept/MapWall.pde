@@ -39,6 +39,20 @@ class MapWall {
     pushMatrix();
     translate(x, y);
     if(state == 1) {
+      // scott mills
+      losAngeles.update();
+      losAngeles.draw();
+    } else if (state == 2) {
+      // tohoku
+      tohoku.update();
+      tohoku.draw();
+    } else if (state == 3) {
+      // north ridge ?? 
+      valdivia.update();
+      valdivia.draw();
+
+    } else if(state == 4) {
+      // update all the panels
       andreanof.update();
       tohoku.update();
       losAngeles.update();

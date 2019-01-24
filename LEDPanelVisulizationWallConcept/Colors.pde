@@ -2,18 +2,21 @@
 in mapping things like intensity to color brightness. */
 class Colors {
 	color blueColor;
-	color accentColor;
-	color bgColor;
 	color yellowColor;
+  color greenColor;
+  
 	color offColor;
+  color accentColor;
+  color bgColor;
 
 	Colors() {
 		blueColor = color(136, 249, 255); // blue
-	    accentColor = color(136,100,255);
-	    offColor = color(0);
-	    bgColor = color(0);
+    yellowColor = color(39, 242, 255); // orange/yellow
+    greenColor = color(136,100,255);
+    accentColor = color(136,100,255);
+    offColor = color(0);
+    bgColor = color(0);
 
-	    yellowColor = color(39, 242, 255); // orange/yellow
 
 	}
 	color blue() {

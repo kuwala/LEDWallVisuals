@@ -24,7 +24,8 @@ class SpringGraph {
   int numberSprings;
   int lastFlickedSpring;
 
-  SpringGraph(int _bars, float[] dataArray, int graphTime) {
+
+  SpringGraph(int _bars, float[] dataArray, int graphTime, int _colorType) {
 
     bars = _bars;//114;
     numberSprings = _bars;
@@ -35,7 +36,7 @@ class SpringGraph {
     paddingLeft = 4;
     paddingTop = 128 -12;
     partial = 0;
-    colorType = 0;
+    colorType = _colorType;//_colorType;
     
     timer = 0; // timer to keep track of cpu millis
     scottMillsTime = graphTime; // 34000 millis
@@ -85,13 +86,21 @@ class SpringGraph {
 
   void draw() {
     //translate to the buttom right corner of where the progress bargraph starts
+    int hue = 0;
+    int sat = 255;
     pushMatrix();
     translate(paddingLeft,paddingTop);
     noStroke();
     colorMode(HSB,255);
     for (int i = 0; i < fullSegments; ++i) {
-      fill(136, 249, 255);
-      // fill(39, 242, 255);
+      if (colorType == 1) {
+        //fill(BLUE_COLOR);
+        fill(136, 249, 255);
+      } else if (colorType == 2) {
+        fill(39, 242, 255);
+      } else {
+        fill(100);
+      }
       float h = springs.get(i).getH();
       rect(i*barWidth, -1*h, barWidth, h);
     }
@@ -99,10 +108,23 @@ class SpringGraph {
      // Draw partial segment
     if(fullSegments < numberSegments) {
       // fill the color based on how filled the partial segment is
-      
+      if (colorType == 1) {
+        //fill(BLUE_COLOR);
+        fill(136, 249, 255);
+        hue = 136;
+        sat = 249;
+      } else if (colorType == 2) {
+        fill(39, 242, 255);
+        hue = 39;
+        sat = 249;
+      } else {
+        fill(100);
+        hue = 0;
+        sat = 0;
+      }
       float part = ((partial / segmentTime));
       float brightness = lerp(0,255,part);
-      color c =  color(136, 249, brightness);
+      color c =  color(hue, sat, brightness);
       fill(c);
       int i = fullSegments;
       float h = scottGraph[i] * barMaxHeight;

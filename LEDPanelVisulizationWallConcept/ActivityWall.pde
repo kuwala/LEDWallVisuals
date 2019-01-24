@@ -7,6 +7,10 @@ class ActivityWall {
 	int state; // 0 - debug, 1,2,3 - sections
   boolean rotated;
 
+  color blueColor;
+  color yellowColor;
+  color greenColor;
+
 	ActivityWall(int _x, int _y){
     x = _x;
     y = _y;
@@ -14,6 +18,10 @@ class ActivityWall {
     h = 384;
     state = 0;
     rotated = false;
+
+    blueColor = color(136, 249, 255); // blue
+    yellowColor = color(39, 242, 255); // orange/yellow
+    greenColor = color(136,100,255);
 	}
 	void draw() {
     pushMatrix();
@@ -26,17 +34,18 @@ class ActivityWall {
     rect(0,0,w,h);
 
     if(state == 1) {
-      fill(200);
+      fill(blueColor);
       rect(0,0,w,h/3);
     } else if (state == 2) {
       fill(200);
+      fill(yellowColor);
       rect(0,h/3,w,h/3);
     } else if (state == 3) {
-      fill(200);
+      fill(greenColor);
       rect(0,(h/3)*2,w,h/3);
     } else if (state == 0) {
 
-      fill(200);
+      fill(60);
       rect(0,0,w,h);
       pushMatrix();
       translate( w/2, h-120);

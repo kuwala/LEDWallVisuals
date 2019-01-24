@@ -13,8 +13,10 @@ class Label {
   int paddingTop;
   
   int state;
+  int colorType;
   
-  Label() {
+  Label(int _colorType) {
+    colorType = _colorType;
     colorMode(HSB,255);
     blueColor = color(136, 249, 255); // blue
     accentColor = color(136,100,255);
@@ -50,12 +52,19 @@ class Label {
   }
   void draw() {
     if(state == 0) {
+      // off state 
       
     } else if (state == 1) {
       // label is on
       // pulse effect
       graphics.beginDraw();
-      graphics.fill(blueColor);
+      if (colorType == 1) {
+        graphics.fill(blueColor);
+      } else if (colorType == 2) {
+        graphics.fill(yellowColor);
+      } else {
+        graphics.fill(100);
+      }
       graphics.rect(w/2, h/2, w, h);
       graphics.endDraw();
       pushMatrix();
