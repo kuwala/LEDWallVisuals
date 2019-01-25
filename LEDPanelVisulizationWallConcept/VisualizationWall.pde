@@ -24,6 +24,11 @@ class VisualizationWall {
   int scottActivityStartTime;
   int scottFadeOutTime;
 
+  int tohokuTimer;
+  int tohokuStartTime;
+  int tohokuCompleteTime;
+  int tohokuFadeOutTime;
+
   Label label1;
   Label label2;
   Label label3;
@@ -35,9 +40,9 @@ class VisualizationWall {
     northRidgeBars = 128;
     tohokuBars = 128;
 
-    scottTime = 25000; // 34 seconds - in millis
-    tohokuTime = 18000;
-    northRidgeTime = 24000;
+    scottTime = 43000; // 34 seconds - in millis
+    tohokuTime = 60000;
+    northRidgeTime = 20000;
     state = 0; // 0 - attractor, 1 - Scott, 2 - Tohoku, 3 - NorthRidge. quakes
     animationState = 0; // o - waiting for start dealy, 1 - started drawing graph
     rotateScreen = true;
@@ -105,6 +110,7 @@ class VisualizationWall {
         if(millis() - scottTimer > scottCompleteTime) {
           // return to the attracktor
           state = 0;
+          animationState = 0;
         }
         scottGraph.update();
         scottGraph.draw();
@@ -149,6 +155,7 @@ class VisualizationWall {
   void setState(int _state) {
     // start a quake animation
     state = _state;
+    animationState = 0;
     if(state == 1) { 
       scottGraph.reset();
       scottTimer = millis();

@@ -30,6 +30,8 @@ VisualizationWall visualizationWall;
 Orchestrator orchestrator;
 boolean rotateScreen = true;
 
+int timer;
+
 
 void setup() {
   fullScreen();
@@ -65,6 +67,7 @@ void mousePressed() {
 
 void keyPressed() {
   //background(127);
+  timer = millis();
   if (key == 'r') {
     visualizationWall.toggleRotation();
     activityWall.toggleRotation();
@@ -79,19 +82,19 @@ void keyPressed() {
     masterState = 1;
     visualizationWall.setState(1);
     mapWall.setState(1);
-    // activityWall.setState(1);
+    activityWall.setState(1);
   }
   if (key == '2') {
     masterState = 2;
     visualizationWall.setState(2);
     mapWall.setState(2);
-    // activityWall.setState(2);
+    activityWall.setState(2);
   }
   if (key == '3') {
     masterState = 3;
     visualizationWall.setState(3);
     mapWall.setState(3);
-    // activityWall.setState(3);
+    activityWall.setState(3);
   }
 
 

@@ -23,7 +23,14 @@ void drawDebugInfo() {
 
   text("Press 'r' to rotate the visualization wall section", 160, 0); 
   text("Press '1,2,3'' to change graph.'6,7,8,9' to change activity'. Esc to exit.", 4,24);
+
+  text("Timer: ",4,50);
+  float animationTime = (float)(millis() - timer) /1000.0;
+  text(animationTime, 40,50);
+
   popMatrix();
+
+
 }
 
 void drawDebugSections() {
