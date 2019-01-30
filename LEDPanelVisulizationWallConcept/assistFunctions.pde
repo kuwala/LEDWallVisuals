@@ -21,12 +21,12 @@ void drawDebugInfo() {
   text(mouseX, 100, 0);
   text(mouseY, 130, 0);
 
-  text("Press 'r' to rotate the visualization wall section", 160, 0); 
-  text("Press '1,2,3'' to change graph.'6,7,8,9' to change activity'. Esc to exit.", 4,24);
+  text("Press: 'r' to rotate the visualization wall section", 160, 0); 
+  text("Press: 1 - Scott Mills, 2 - Tohoku, 3 - North Ridge to change graph. Esc to exit.", 4,24);
 
-  text("Timer: ",4,50);
+  text("Animation Timer: ",4,50);
   float animationTime = (float)(millis() - timer) /1000.0;
-  text(animationTime, 40,50);
+  text(animationTime, 100,50);
 
   popMatrix();
 

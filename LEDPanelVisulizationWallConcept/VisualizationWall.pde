@@ -18,16 +18,22 @@ class VisualizationWall {
   SpringGraph tohokuGraph;
   SpringGraph northRidgeGraph;
 
-  int scottTimer;
+  int animationTimer;
   int scottStartTime;
   int scottCompleteTime;
   int scottActivityStartTime;
   int scottFadeOutTime;
 
-  int tohokuTimer;
   int tohokuStartTime;
   int tohokuCompleteTime;
+  int tohokuActivityStartTime;
+  int tohokuActivityStartTime2;
   int tohokuFadeOutTime;
+
+  int northRidgeStartTime;
+  int northRidgeCompleteTime;
+  int northRidgeActivityStartTime;
+  int northRidgeFadeOutTime;
 
   Label label1;
   Label label2;
@@ -50,11 +56,25 @@ class VisualizationWall {
     scottGraph = new SpringGraph(scottBars, scottData, scottTime, 1);
     tohokuGraph = new SpringGraph(tohokuBars, tohokuData, tohokuTime, 2);
     northRidgeGraph = new SpringGraph(northRidgeBars, northRidgeData, northRidgeTime, 3);
-    scottTimer = 0;
+
+    // used for all 3
+    animationTimer = 0;
+
     scottStartTime = 5000;
-    scottActivityStartTime = 15000;
+    scottActivityStartTime = 20000;
     scottFadeOutTime = 28000;
     scottCompleteTime = 30000;
+
+    tohokuStartTime = 5000;
+    tohokuActivityStartTime = 30000;
+    tohokuActivityStartTime2 = 50000;
+    tohokuFadeOutTime = 65000;
+    tohokuCompleteTime = 70000;
+
+    northRidgeStartTime = 5000;
+    northRidgeActivityStartTime = 15000;
+    northRidgeFadeOutTime = 25000;
+    northRidgeCompleteTime = 30000;
 
     label1 = new Label(1);
     label1.turnOff();
@@ -72,33 +92,43 @@ class VisualizationWall {
     // translate(100, 100);
     pushMatrix();
     if (rotateScreen) {
+      fill(100);
+      text("Visualization Wall", 30, 540);
       translate(512,0);
       rotate(HALF_PI*3); 
       translate(-512,-512);
+      
+    } else {
+      fill(100);
+      text("Visualization Wall", 30, 180);
     }
     // drawDebugSections();
 
     
     if(state==0) {
-      //attractor
+      // * * * * * * * * * * * * * * * * * * * 
+      // * * * * * * Atractor * * * * * * * * *
+      // * * * * * * * * * * * * * * * * * * * 
     } else if (state==1) {
-      //scott
+      // * * * * * * * * * * * * * * * * * * * 
+      // * * * * * * Scott Mills * * * * * * *
+      // * * * * * * * * * * * * * * * * * * * 
       // if delayTime passed draw
       if(animationState == 0) {
         // start the graph
-        if(millis() - scottTimer > scottStartTime) {
+        if(millis() - animationTimer > scottStartTime) {
         scottGraph.reset();
         animationState = 1;
         }
       } else if (animationState == 1){
-        if(millis() - scottTimer > scottActivityStartTime) {
-          //start activity wall Animation
+        if(millis() - animationTimer > scottActivityStartTime) {
+          //activity wall Animation starts
           animationState = 2;
         }
         scottGraph.update();
         scottGraph.draw();
       } else if (animationState == 2){
-        if(millis() - scottTimer > scottFadeOutTime) {
+        if(millis() - animationTimer > scottFadeOutTime) {
           //fade out graph
           //fade out label
           label1.fadeOut();
@@ -107,7 +137,7 @@ class VisualizationWall {
         scottGraph.update();
         scottGraph.draw();
       } else if (animationState == 3){
-        if(millis() - scottTimer > scottCompleteTime) {
+        if(millis() - animationTimer > scottCompleteTime) {
           // return to the attracktor
           state = 0;
           animationState = 0;
@@ -117,14 +147,77 @@ class VisualizationWall {
       }
 
     } else if (state == 2) {
-      // north ridge
-      tohokuGraph.update();
-      tohokuGraph.draw();
+      // * * * * * * * * * * * * * * * * * * * 
+      // * * * * * * * Tohoku * * * * * * * * *
+      // * * * * * * * * * * * * * * * * * * * 
+      if(animationState == 0) {
+        // start the graph
+        if(millis() - animationTimer > tohokuStartTime) {
+        tohokuGraph.reset();
+        animationState = 1;
+        }
+      } else if (animationState == 1){
+        if(millis() - animationTimer > tohokuActivityStartTime) {
+          //activity wall Animation starts
+          animationState = 2;
+        }
+        tohokuGraph.update();
+        tohokuGraph.draw();
+      } else if (animationState == 2){
+        if(millis() - animationTimer > tohokuFadeOutTime) {
+          //fade out graph
+          //fade out label
+          label2.fadeOut();
+          animationState = 3;
+        }
+        tohokuGraph.update();
+        tohokuGraph.draw();
+      } else if (animationState == 3){
+        if(millis() - animationTimer > tohokuCompleteTime) {
+          // return to the attracktor
+          state = 0;
+          animationState = 0;
+        }
+        // fade out graph 5secs
+        // tohokuGraph.update();
+        // tohokuGraph.draw();
+      }
       
     } else if (state == 3) {
-      // tohoku
-      northRidgeGraph.update();
-      northRidgeGraph.draw();
+      // * * * * * * * * * * * * * * * * * * * 
+      // * * * * * * North Ridge * * * * * * *
+      // * * * * * * * * * * * * * * * * * * * 
+      if(animationState == 0) {
+        // start the graph
+        if(millis() - animationTimer > northRidgeStartTime) {
+        northRidgeGraph.reset();
+        animationState = 1;
+        }
+      } else if (animationState == 1){
+        if(millis() - animationTimer > northRidgeActivityStartTime) {
+          //activity wall Animation starts
+          animationState = 2;
+        }
+        northRidgeGraph.update();
+        northRidgeGraph.draw();
+      } else if (animationState == 2){
+        if(millis() - animationTimer > northRidgeFadeOutTime) {
+          //fade out graph
+          //fade out label
+          label3.fadeOut();
+          animationState = 3;
+        }
+        northRidgeGraph.update();
+        northRidgeGraph.draw();
+      } else if (animationState == 3){
+        if(millis() - animationTimer > northRidgeCompleteTime) {
+          // return to the attracktor
+          state = 0;
+          animationState = 0;
+        }
+        // northRidgeGraph.update();
+        // northRidgeGraph.draw();
+      }
       
     }
 
@@ -140,6 +233,7 @@ class VisualizationWall {
 
     popMatrix(); // end rotation
     
+    
   } // end draw()
   void toggleRotation() {
     rotateScreen = !rotateScreen;
@@ -150,7 +244,7 @@ class VisualizationWall {
     label3.turnOff();
   }
   void resetTimers() {
-    scottTimer = millis();
+    animationTimer = millis();
   }
   void setState(int _state) {
     // start a quake animation
@@ -158,15 +252,17 @@ class VisualizationWall {
     animationState = 0;
     if(state == 1) { 
       scottGraph.reset();
-      scottTimer = millis();
+      resetTimers();
       turnOffLabels();
       label1.fadeIn();
     } else if(state == 2) {
       tohokuGraph.reset();
+      resetTimers();
       turnOffLabels();
       label2.fadeIn();
     } else if(state == 3) {
       northRidgeGraph.reset();
+      resetTimers();
       turnOffLabels();
       label3.fadeIn();
     } else if (state == 0) {

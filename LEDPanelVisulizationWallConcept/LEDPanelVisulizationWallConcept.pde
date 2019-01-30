@@ -77,20 +77,24 @@ void keyPressed() {
     // stop everything
     masterState = 0;
     visualizationWall.setState(0);
+    mapWall.setState(0);
   }
   if (key == '1') {
+    // Scott Mills
     masterState = 1;
     visualizationWall.setState(1);
     mapWall.setState(1);
     activityWall.setState(1);
   }
   if (key == '2') {
+    // Tohoku
     masterState = 2;
     visualizationWall.setState(2);
     mapWall.setState(2);
     activityWall.setState(2);
   }
   if (key == '3') {
+    // North Ridge
     masterState = 3;
     visualizationWall.setState(3);
     mapWall.setState(3);

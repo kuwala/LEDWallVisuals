@@ -82,6 +82,8 @@ class Label {
         col = blueColor;
       } else if (colorType == 2) {
         col = yellowColor;
+      } else if (colorType == 3) {
+        col = accentColor;
       }
 
       drawLabel(col);
@@ -100,6 +102,8 @@ class Label {
         fadeColor = color(136, 249, brightness); // blue
       } else if (colorType == 2) {
         fadeColor = color(39, 242, brightness); // yellow
+      } else if (colorType == 3) {
+        fadeColor = color(136,100, brightness); // grey
       }
       drawLabel(fadeColor);
       fadeFrames++;
@@ -114,6 +118,8 @@ class Label {
         fadeColor = color(136, 249, brightness); // blue
       } else if (colorType == 2) {
         fadeColor = color(39, 242, brightness); // yellow
+      } else if (colorType == 3) {
+        fadeColor = color(136,100, brightness); // grey
       }
       drawLabel(fadeColor);
       fadeFrames++;

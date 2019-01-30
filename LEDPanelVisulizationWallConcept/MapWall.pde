@@ -17,7 +17,7 @@ class MapWall {
 
     x = _x;
     y = _y;
-    state = 1;
+    state = 0;
     andreanof = new LocationMarker(0,0,64,32);
     andreanof.setFrameCounter(200/6*1);
     tohoku = new LocationMarker(0,32,64,64);
@@ -66,9 +66,12 @@ class MapWall {
       aceh.draw();
       christChurch.draw();
       valdivia.draw();
+    } else if (state == 0) {
+      // draw nothing
     } else {
       drawDebug();
     }
+    
 
     fill(127);
     text("Map Wall", 32, h + 32);

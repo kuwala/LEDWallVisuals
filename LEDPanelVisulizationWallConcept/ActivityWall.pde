@@ -98,24 +98,59 @@ class ActivityWall {
         if(millis() - timer > tohokuStartTime1 + delayBetween) {
           animationState = 2;
         }
-        fill(blueColor);
+        fill(yellowColor);
         rect(0,0,w,h/3);
       } else if(animationState == 2) {
         // section 2
         if(millis() - timer > tohokuStartTime1 + delayBetween*2) {
           animationState = 3;
         }
-        fill(blueColor);
+        fill(yellowColor);
+        rect(0,0,w,h/3);
         rect(0,h/3,w,h/3);
       } else if(animationState == 3) {
         // section 3
         if(millis() - timer > tohokuStartTime1 + delayBetween*3) {
+          animationState = 4;
+          //state = 0;
+        }
+        fill(yellowColor);
+        rect(0,0,w,h/3);
+        rect(0,h/3,w,h/3);
+        rect(0,(h/3)*2,w,h/3);
+      } else if(animationState == 4) {
+        // wait till start time
+        if(millis() - timer > tohokuStartTime2) {
+          animationState = 5;
+        }
+      } else if(animationState == 5) {
+        // section 1
+        if(millis() - timer > tohokuStartTime2 + delayBetween) {
+          animationState = 6;
+        }
+        fill(blueColor);
+        rect(0,0,w,h/3);
+      } else if(animationState == 6) {
+        // section 2
+        if(millis() - timer > tohokuStartTime2 + delayBetween*2) {
+          animationState = 7;
+        }
+        fill(yellowColor);
+        rect(0,0,w,h/3);
+        rect(0,h/3,w,h/3);
+      } else if(animationState == 7) {
+        // section 3
+        if(millis() - timer > tohokuStartTime2 + delayBetween*3) {
           animationState = 0;
           state = 0;
         }
-        fill(blueColor);
+        fill(yellowColor);
+        rect(0,0,w,h/3);
+        rect(0,h/3,w,h/3);
         rect(0,(h/3)*2,w,h/3);
       }
+
+
     } else if (state == 3) {
       if(animationState == 0) {
         // wait till start time
@@ -136,6 +171,7 @@ class ActivityWall {
         }
         fill(200);
         fill(greenColor);
+        rect(0,0,w,h/3);
         rect(0,h/3,w,h/3);
       } else if(animationState == 3) {
         // section 3
@@ -144,6 +180,8 @@ class ActivityWall {
           state = 0;
         }
         fill(greenColor);
+        rect(0,0,w,h/3);
+        rect(0,h/3,w,h/3);
         rect(0,(h/3)*2,w,h/3);
       }
     } else if (state == 4) {
