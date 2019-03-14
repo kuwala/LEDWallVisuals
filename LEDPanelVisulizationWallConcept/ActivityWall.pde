@@ -128,7 +128,7 @@ class ActivityWall {
         if(millis() - timer > tohokuStartTime2 + delayBetween) {
           animationState = 6;
         }
-        fill(blueColor);
+        fill(yellowColor);
         rect(0,0,w,h/3);
       } else if(animationState == 6) {
         // section 2

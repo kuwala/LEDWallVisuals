@@ -42,6 +42,13 @@ class VisualizationWall {
   boolean rotateScreen;
 
   VisualizationWall() {
+    // quakeDuration / maxQuakeDuration * maxBars
+    // 43s / 60a * 128 = 92 bars
+    
+    // scottBars = 92;//126; // 128 - 14 // 512 pixels wide area
+    // northRidgeBars = 42;//128;
+    // tohokuBars = 128;
+
     scottBars = 126; // 128 - 14 // 512 pixels wide area
     northRidgeBars = 128;
     tohokuBars = 128;

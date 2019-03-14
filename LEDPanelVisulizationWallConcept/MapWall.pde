@@ -18,17 +18,17 @@ class MapWall {
     x = _x;
     y = _y;
     state = 0;
-    andreanof = new LocationMarker(0,0,64,32);
+    andreanof = new LocationMarker(128,0,64,32,"Alaska, Andreanof");
     andreanof.setFrameCounter(200/6*1);
-    tohoku = new LocationMarker(0,32,64,64);
+    tohoku = new LocationMarker(64,32,64,64,"Japan, Tohoku");
     tohoku.setFrameCounter(200/6*2);
-    losAngeles = new LocationMarker(64,32,64,64);
+    losAngeles = new LocationMarker(128,32,64,64,"USA, LosAngeles");
     losAngeles.setFrameCounter(200/6*3);
-    aceh = new LocationMarker(0,96,64,32);
+    aceh = new LocationMarker(0,64,64,32, "Indonesia, Aceh");
     aceh.setFrameCounter(200/6*4);
-    christChurch = new LocationMarker(64,96,64,32);
+    christChurch = new LocationMarker(0,96,64,32, "New Zealand, ChristChurch");
     christChurch.setFrameCounter(200/6*5);
-    valdivia = new LocationMarker(128,96,64,32);
+    valdivia = new LocationMarker(64,96,64,32, "Chile, Valdivia");
     valdivia.setFrameCounter((int)(200/6*5.5));
 
   }
@@ -69,7 +69,7 @@ class MapWall {
     } else if (state == 0) {
       // draw nothing
     } else {
-      drawDebug();
+      // drawDebug();
     }
     
 
@@ -77,29 +77,47 @@ class MapWall {
     text("Map Wall", 32, h + 32);
     popMatrix();
   }
-  void drawDebug() {
-    // Alask
-    fill(80);
-    rect(0,0,64,32);
+  void toggleDebug() {
+    if(andreanof.getState() == -1) {
+      andreanof.setState(0);
+      tohoku.setState(0);
+      losAngeles.setState(0);
+      aceh.setState(0);
+      christChurch.setState(0);
+      valdivia.setState(0);
+    } else {
+      andreanof.setState(-1);
+      tohoku.setState(-1);
+      losAngeles.setState(-1);
+      aceh.setState(-1);
+      christChurch.setState(-1);
+      valdivia.setState(-1);
+    }
+    // draw();
 
-    // LA USA
-    fill(100);
-    rect(0,32,64,64);
+    // noStroke();
+    // // Alaska
+    // fill(80);
+    // rect(0,0,64,32);
 
-    // Tohoku
-    fill(120);
-    rect(64,32,64,64);
+    // // LA USA
+    // fill(100);
+    // rect(0,32,64,64);
 
-    // Chile
-    fill(160);
-    rect(0,96,64,32);
+    // // Tohoku
+    // fill(120);
+    // rect(64,32,64,64);
 
-    // New Zealand
-    fill(200);
-    rect(64,96,64,32);
+    // // Chile
+    // fill(160);
+    // rect(0,96,64,32);
 
-    // Indonesia
-    fill(255);
-    rect(128,96,64,32);
+    // // New Zealand
+    // fill(200);
+    // rect(64,96,64,32);
+
+    // // Indonesia
+    // fill(255);
+    // rect(128,96,64,32);
   }
 }

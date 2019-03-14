@@ -34,7 +34,11 @@ int timer;
 
 
 void setup() {
-  fullScreen();
+  // Processing sketch Spans multiple displays
+  // PC is plugged into VGA (display 3)
+  // Sender cards are on (display 1 | 2) duplicated/mirrored
+  // All 3 are set to 1024x768 resolution
+  fullScreen(SPAN);
   frameRate(60);
   colorMode(HSB,255);
   
@@ -46,14 +50,23 @@ void setup() {
 
 }
 void draw() {
+  //visualizationWall.draw();
+  //activityWall.draw();
+  //mapWall.draw();
+  //translate(1024,0);
   background(0);
-  // drawBackground(); 
+  //fill(0);
+  //rect(0,0,1024,768);
+  //// drawBackground(); 
   visualizationWall.draw();
   activityWall.draw();
   mapWall.draw();
+  drawDebugInfo();
+  copy(0,0,1024,768,1024,0,1024,768);
+
  
   
-  drawDebugInfo();
+  
   
 } // end of main draw() 
 void drawLabels() {
@@ -99,6 +112,15 @@ void keyPressed() {
     visualizationWall.setState(3);
     mapWall.setState(3);
     activityWall.setState(3);
+  }
+  if (key == '4') {
+    // turn on all mapwall panel
+    masterState = 4;
+    mapWall.setState(4);
+  }
+  if (key == 'd') {
+    // North Ridge
+    mapWall.toggleDebug();
   }
 
 
