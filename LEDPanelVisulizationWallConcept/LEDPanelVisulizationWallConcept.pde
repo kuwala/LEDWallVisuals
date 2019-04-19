@@ -39,6 +39,7 @@ void setup() {
   // Sender cards are on (display 1 | 2) duplicated/mirrored
   // All 3 are set to 1024x768 resolution
   fullScreen(SPAN);
+  //fullScreen();
   frameRate(60);
   colorMode(HSB,255);
   

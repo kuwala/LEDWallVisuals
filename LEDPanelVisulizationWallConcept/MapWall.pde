@@ -26,10 +26,11 @@ class MapWall {
     losAngeles.setFrameCounter(200/6*3);
     aceh = new LocationMarker(0,64,64,32, "Indonesia, Aceh");
     aceh.setFrameCounter(200/6*4);
-    christChurch = new LocationMarker(0,96,64,32, "New Zealand, ChristChurch");
+    christChurch = new LocationMarker(64,96,64,32, "New Zealand, ChristChurch");
     christChurch.setFrameCounter(200/6*5);
-    valdivia = new LocationMarker(64,96,64,32, "Chile, Valdivia");
+    valdivia = new LocationMarker(128,96,64,32, "Chile, Valdivia");
     valdivia.setFrameCounter((int)(200/6*5.5));
+  
 
   }
   void setState (int newState) {
