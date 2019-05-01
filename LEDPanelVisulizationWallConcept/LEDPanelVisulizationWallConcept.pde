@@ -30,7 +30,8 @@ VisualizationWall visualizationWall;
 Orchestrator orchestrator;
 boolean rotateScreen = true;
 
-int timer;
+int timer
+;
 
 
 void setup() {

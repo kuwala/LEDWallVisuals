@@ -1,6 +1,6 @@
 class Label {
   color blueColor;
-  color accentColor;
+  color orangeColor;
   color bgColor;
   color yellowColor;
   color offColor;
@@ -22,7 +22,7 @@ class Label {
     colorMode(HSB,255);
     blueColor = color(136, 249, 255); // blue
     yellowColor = color(39, 242, 255); // orange/yellow
-    accentColor = color(136,100,255);
+    orangeColor = color(24, 240, 255);
     offColor = color(0);
     bgColor = color(0);
 
@@ -79,11 +79,12 @@ class Label {
       // on state
       color col = color(100);
       if (colorType == 1) {
-        col = blueColor;
+        col = orangeColor;
       } else if (colorType == 2) {
-        col = yellowColor;
+        col = blueColor;
       } else if (colorType == 3) {
-        col = accentColor;
+        col = yellowColor;
+
       }
 
       drawLabel(col);
@@ -99,11 +100,11 @@ class Label {
       }
       float brightness = map(fadeFrames, 0, maxFadeFrames, 0, 255);
       if (colorType == 1) {
-        fadeColor = color(136, 249, brightness); // blue
+        fadeColor =  color(24, 240, brightness); // orange
       } else if (colorType == 2) {
-        fadeColor = color(39, 242, brightness); // yellow
+        fadeColor = color(136, 249, brightness); // blue
       } else if (colorType == 3) {
-        fadeColor = color(136,100, brightness); // grey
+        fadeColor = color(39, 242, brightness); // yellow
       }
       drawLabel(fadeColor);
       fadeFrames++;
@@ -115,11 +116,11 @@ class Label {
       }
       float brightness = map(fadeFrames, maxFadeFrames,0, 0, 255);
       if (colorType == 1) {
-        fadeColor = color(136, 249, brightness); // blue
+        fadeColor =  color(24, 240, brightness); // orange
       } else if (colorType == 2) {
-        fadeColor = color(39, 242, brightness); // yellow
+        fadeColor = color(136, 249, brightness); // blue
       } else if (colorType == 3) {
-        fadeColor = color(136,100, brightness); // grey
+        fadeColor = color(39, 242, brightness); // yellow
       }
       drawLabel(fadeColor);
       fadeFrames++;

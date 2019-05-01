@@ -46,14 +46,20 @@ class LocationMarker {
     graphics.fill(20,100,255,10);
     // graphics.fill(0,0,0,2);
     graphics.noStroke();
-    graphics.rect(0, 0, 64,64);
+    // graphics.rect(0, 0, 64,64);
+    // EDIT HERE to change vingetting
+    // graphics.ellipseMode(CORNER);
+    // graphics.ellipse(0,0,64,64);
+    // graphics.ellipseMode(CENTER);
     graphics.pushMatrix();
 		graphics.translate(maxSize/2+3,maxSize/2+3);
     // graphics.translate(paddingLeft,paddingTop);
 		graphics.fill(20,100,255,2);
     // graphics.fill(0,0,0,2);
+    graphics.fill(0,0,0,2);
 		graphics.strokeWeight(1.5);
 		graphics.stroke(0,255,200);
+    graphics.stroke(255);
 		graphics.ellipse(0,0,size,size);
     graphics.popMatrix();
     if(state == -1) {

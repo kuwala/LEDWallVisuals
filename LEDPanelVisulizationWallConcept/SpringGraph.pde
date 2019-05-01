@@ -35,7 +35,8 @@ class SpringGraph {
     barWidth = 4;
     totalWidth = 512;
     paddingLeft = 4;
-    paddingTop = 128 -12;
+    //paddingTop = 128 -12; // old
+    paddingTop = 128 -14;
     partial = 0;
     colorType = _colorType;//_colorType;
     
@@ -95,12 +96,11 @@ class SpringGraph {
     colorMode(HSB,255);
     for (int i = 0; i < fullSegments; ++i) {
       if (colorType == 1) {
-        //fill(BLUE_COLOR);
-        fill(136, 249, 255);
+        fill(136, 249, 255); // blue
       } else if (colorType == 2) {
-        fill(39, 242, 255);
+        fill(39, 242, 255); // yellow
       } else {
-        fill(100);
+        fill(24, 240, 255); // orange
       }
       float h = springs.get(i).getH();
       rect(i*barWidth, -1*h, barWidth, h);
@@ -119,9 +119,9 @@ class SpringGraph {
         hue = 39;
         sat = 249;
       } else {
-        fill(100);
-        hue = 0;
-        sat = 0;
+        fill(24, 240, 255); // orange
+        hue = 38;
+        sat = 255;
       }
       float part = ((partial / segmentTime));
       float brightness = lerp(0,255,part);
