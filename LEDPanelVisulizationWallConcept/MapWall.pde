@@ -5,6 +5,7 @@ class MapWall {
   int y;
   LocationMarker andreanof;
   LocationMarker tohoku;
+  LocationMarker scottMills;
   LocationMarker losAngeles;
   LocationMarker aceh;
   LocationMarker christChurch;
@@ -22,8 +23,11 @@ class MapWall {
     andreanof.setFrameCounter(200/6*1);
     tohoku = new LocationMarker(64,32,64,64,"Japan, Tohoku");
     tohoku.setFrameCounter(200/6*2);
+    scottMills = new LocationMarker(128,32,64,64,"USA, ScottMills");
+    scottMills.setFrameCounter(200/6*3);
     losAngeles = new LocationMarker(128,32,64,64,"USA, LosAngeles");
     losAngeles.setFrameCounter(200/6*3);
+    losAngeles.setCenterAdjust(12,13);
     aceh = new LocationMarker(0,64,64,32, "Indonesia, Aceh");
     aceh.setFrameCounter(200/6*4);
     christChurch = new LocationMarker(64,96,64,32, "New Zealand, ChristChurch");
@@ -35,28 +39,43 @@ class MapWall {
   }
   void setState (int newState) {
     state = newState;
+    if (state == 1) {
+      scottMills.setColor(24, 240, 255);
+      scottMills.reset();
+    } else if (state == 2) {
+      losAngeles.setColor(136, 249, 170);
+      losAngeles.reset();
+    } else if (state == 3) {
+      tohoku.setColor(39,242,170);
+      tohoku.reset();
+    }
   }
   void draw() {
     pushMatrix();
     translate(x, y);
     if(state == 1) {
       // scott mills
+      
+      scottMills.update();
+      scottMills.draw();
+    } else if (state == 2) {
+      // north ridge
       losAngeles.update();
       losAngeles.draw();
-    } else if (state == 2) {
+      
+    } else if (state == 3) {
       // tohoku
+      
+      
       tohoku.update();
       tohoku.draw();
-    } else if (state == 3) {
-      // north ridge ?? 
-      valdivia.update();
-      valdivia.draw();
 
     } else if(state == 4) {
       // update all the panels
       andreanof.update();
       tohoku.update();
       losAngeles.update();
+      scottMills.update();
       aceh.update();
       christChurch.update();
       valdivia.update();
@@ -64,11 +83,19 @@ class MapWall {
       andreanof.draw();
       tohoku.draw();
       losAngeles.draw();
+      scottMills.draw();
       aceh.draw();
       christChurch.draw();
       valdivia.draw();
     } else if (state == 0) {
       // draw nothing
+      andreanof.setColor(0,0,255);
+      tohoku.setColor(0,0,255);
+      losAngeles.setColor(0,0,255);
+      scottMills.setColor(0,0,255);
+      aceh.setColor(0,0,255);
+      christChurch.setColor(0,0,255);
+      valdivia.setColor(0,0,255);
     } else {
       // drawDebug();
     }
@@ -83,6 +110,7 @@ class MapWall {
       andreanof.setState(0);
       tohoku.setState(0);
       losAngeles.setState(0);
+      scottMills.setState(0);
       aceh.setState(0);
       christChurch.setState(0);
       valdivia.setState(0);
@@ -90,35 +118,10 @@ class MapWall {
       andreanof.setState(-1);
       tohoku.setState(-1);
       losAngeles.setState(-1);
+      scottMills.setState(-1);
       aceh.setState(-1);
       christChurch.setState(-1);
       valdivia.setState(-1);
     }
-    // draw();
-
-    // noStroke();
-    // // Alaska
-    // fill(80);
-    // rect(0,0,64,32);
-
-    // // LA USA
-    // fill(100);
-    // rect(0,32,64,64);
-
-    // // Tohoku
-    // fill(120);
-    // rect(64,32,64,64);
-
-    // // Chile
-    // fill(160);
-    // rect(0,96,64,32);
-
-    // // New Zealand
-    // fill(200);
-    // rect(64,96,64,32);
-
-    // // Indonesia
-    // fill(255);
-    // rect(128,96,64,32);
-  }
+  } //end draw
 }

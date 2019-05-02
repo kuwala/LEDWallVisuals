@@ -117,11 +117,11 @@ class SpringGraph {
       } else if (colorType == 2) {
         fill(39, 242, 255);
         hue = 39;
-        sat = 249;
+        sat = 242;
       } else {
         fill(24, 240, 255); // orange
-        hue = 38;
-        sat = 255;
+        hue = 24;
+        sat = 240;
       }
       float part = ((partial / segmentTime));
       float brightness = lerp(0,255,part);

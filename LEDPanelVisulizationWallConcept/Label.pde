@@ -16,6 +16,9 @@ class Label {
   int colorType;
   int fadeFrames;
   int maxFadeFrames;
+
+  int shortAdjustment;
+  boolean shortened;
   
   Label(int _colorType) {
     colorType = _colorType;
@@ -30,6 +33,8 @@ class Label {
     w = 170 - 8; // width
     paddingLeft = 4;
     paddingTop = 32;
+    shortAdjustment = 20;
+    shortened = false;
     
     state = 0; // 0 off 1 on
     fadeFrames = 0;
@@ -62,10 +67,18 @@ class Label {
   void turnDebug() {
     state = 2; 
   }
+
   void drawLabel(color col) {
     graphics.beginDraw();
     graphics.fill(col);
-    graphics.rect(w/2, h/2, w, h);
+ 
+    if(colorType == 1) {
+      graphics.rect(w/2, h/2, w-20, h);
+    } else if (colorType == 2) {
+      graphics.rect(w/2, h/2, w, h);
+    } else if (colorType == 3) {
+      graphics.rect(w/2+10, h/2, w-20, h);
+    }
     graphics.endDraw();
     pushMatrix();
     translate(paddingLeft, paddingTop);

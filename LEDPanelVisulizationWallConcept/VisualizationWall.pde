@@ -46,17 +46,12 @@ class VisualizationWall {
     // quakeDuration / maxQuakeDuration * maxBars
     // 43s / 60a * 128 = 92 bars
     
-    // scottBars = 92;//126; // 128 - 14 // 512 pixels wide area
-    // northRidgeBars = 42;//128;
-    // tohokuBars = 128;
-
-
-    scottBars = 126; // 128 - 14 // 512 pixels wide area
+    scottBars = 128;
     northRidgeBars = 128;
     tohokuBars = 128;
 
     // time the graphi is displayed
-    scottTime = 61000; // 43 seconds - in millis
+    scottTime = 61000; 
     tohokuTime = 58100;
     northRidgeTime = 54700;
     state = 0; // 0 - attractor, 1 - Scott, 2 - NorthRidge, 3 - Tohoku
@@ -235,7 +230,7 @@ class VisualizationWall {
     
     pushMatrix();
     //translate(1, 9); // old code
-    translate(1, -16); // move to section 1
+    translate(-1, -16); // move to section 1
     label1.draw();
     translate(170, 0); // move to section 2
     label2.draw();

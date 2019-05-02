@@ -2,12 +2,16 @@ class LocationMarker {
 	int paddingLeft;
 	int paddingTop;
 
+  int centerAdjustX;
+  int centerAdjustY;
+
 	float minSize;
 	float maxSize;
 	float targetSize;
 	float size;
 	int frameCounter;
 	int maxFrames;
+  int hue, sat, bri;
 
   int w;
   int h;
@@ -18,6 +22,7 @@ class LocationMarker {
 	LocationMarker(int _paddingLeft, int _paddingTop, int _w, int _h, String _title) {
     w = _w;
     h = _h;
+    hue = 0; sat = 0; bri = 255;
     minSize = 1;
     maxSize = _h - 6;
     targetSize = maxSize;
@@ -29,6 +34,8 @@ class LocationMarker {
 	  graphics	= createGraphics(w,h);
 	  paddingLeft = _paddingLeft;
 	  paddingTop = _paddingTop;
+    centerAdjustX = 0;
+    centerAdjustY = 0;
     title = _title;
     state = 0; // -1 is debug
 
@@ -40,26 +47,26 @@ class LocationMarker {
   void setFrameCounter(int newFrames) {
     frameCounter = newFrames % maxFrames;
   }
+  void setCenterAdjust(int ax, int ay) {
+    centerAdjustX = ax;
+    centerAdjustY = ay;
+  }
 	void draw() {
 		graphics.beginDraw();
+    graphics.colorMode(HSB);
 		graphics.ellipseMode(CENTER);
-    graphics.fill(20,100,255,10);
-    // graphics.fill(0,0,0,2);
+    graphics.fill(0,0,0,2);
     graphics.noStroke();
-    // graphics.rect(0, 0, 64,64);
+    graphics.rect(0, 0, 64,64);
     // EDIT HERE to change vingetting
-    // graphics.ellipseMode(CORNER);
-    // graphics.ellipse(0,0,64,64);
-    // graphics.ellipseMode(CENTER);
     graphics.pushMatrix();
 		graphics.translate(maxSize/2+3,maxSize/2+3);
+    graphics.translate(centerAdjustX, centerAdjustY);
     // graphics.translate(paddingLeft,paddingTop);
-		graphics.fill(20,100,255,2);
-    // graphics.fill(0,0,0,2);
+
     graphics.fill(0,0,0,2);
 		graphics.strokeWeight(1.5);
-		graphics.stroke(0,255,200);
-    graphics.stroke(255);
+    graphics.stroke(hue,sat,bri);
 		graphics.ellipse(0,0,size,size);
     graphics.popMatrix();
     if(state == -1) {
@@ -73,12 +80,21 @@ class LocationMarker {
     translate(paddingLeft, paddingTop);
     image(graphics,0,0);
     
-    // fill(0,0,0,0);
-    // strokeWeight(1);
-    // stroke(255);
-    // rect(0,0,64,64);
     popMatrix();
 	}
+  void setColor(int hue_, int sat_, int bri_) {
+    hue = hue_; sat = sat_; bri = bri_;
+    
+  }
+  void reset() {
+    graphics.beginDraw();
+    graphics.fill(0);
+    graphics.noStroke();
+    graphics.rect(0,0,graphics.width,graphics.height);
+    graphics.fill(0,0,0,2);
+    graphics.endDraw();
+    frameCounter = 0;
+  }
   void setState(int _state) {
     state = _state;
   }

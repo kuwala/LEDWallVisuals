@@ -22,7 +22,7 @@ void drawDebugInfo() {
   text(mouseY, 130, 0);
 
   text("Press: 'r' to rotate the visualization wall section", 160, 0); 
-  text("Press: 1 - Scott Mills, 2 - Tohoku, 3 - North Ridge to change graph. Esc to exit.", 4,24);
+  text("Press: 1 - Scott Mills, 2 - North Ridge, 3 - Tohoku to change graph. Esc to exit.", 4,24);
 
   text("Animation Timer: ",4,50);
   float animationTime = (float)(millis() - timer) /1000.0;

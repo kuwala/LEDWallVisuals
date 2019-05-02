@@ -27,11 +27,14 @@ ActivityWall activityWall;
 VisualizationWall visualizationWall;
 
 // Toggle Controll Variables
-Orchestrator orchestrator;
 boolean rotateScreen = true;
 
-int timer
-;
+int timer;
+
+import processing.serial.*;
+Serial myPort;
+int inByte;
+
 
 
 void setup() {
@@ -40,7 +43,8 @@ void setup() {
   // Sender cards are on (display 1 | 2) duplicated/mirrored
   // All 3 are set to 1024x768 resolution
   fullScreen(SPAN);
-  //fullScreen();
+  // fullScreen();
+  // size(1024, 768);
   frameRate(60);
   colorMode(HSB,255);
   
@@ -48,7 +52,9 @@ void setup() {
   activityWall = new ActivityWall(400,0);
   visualizationWall = new VisualizationWall();
 
-  // orchestrator = new Orchestrator();
+  printArray(Serial.list());
+  
+  myPort = new Serial(this, Serial.list()[1], 115200);
 
 }
 void draw() {
@@ -66,50 +72,63 @@ void draw() {
   drawDebugInfo();
   copy(0,0,1024,768,1024,0,1024,768);
 
- 
-  
+ // Serial
+  while (myPort.available() > 0) {
+    inByte = (char)myPort.read();
+    //println(inByte);
+    if(inByte == 'A') { // quake 1
+      println("A recieved");
+      keyPressed(); 
+    }
+    if(inByte == 'B') { // quake 2
+      println("B recieved");
+      keyPressed(); 
+    }
+    if(inByte == 'C') { // quake 3
+      println("C recieved");
+      keyPressed(); 
+    }
+    if(inByte == 'D') { // Stop Pressed
+      println("D recieved");
+      keyPressed(); 
+    }
+    inByte = 0;
+  }
   
   
 } // end of main draw() 
-void drawLabels() {
-
-}
-void mousePressed() {
-  if(mouseX < 100) {
-    exit();
-  }
-}
 
 void keyPressed() {
   //background(127);
+  char serialIn = 'g';
   timer = millis();
-  if (key == 'r') {
+  if (key == 'r'|| inByte == 'r') {
     visualizationWall.toggleRotation();
     activityWall.toggleRotation();
   }
 
-  if (key == '0') {
+  if (key == '0' || inByte == 'D') {
     // stop everything
     masterState = 0;
     visualizationWall.setState(0);
     mapWall.setState(0);
   }
-  if (key == '1') {
+  if (key == '1' || inByte == 'A') {
     // Scott Mills
     masterState = 1;
     visualizationWall.setState(1);
     mapWall.setState(1);
     activityWall.setState(1);
   }
-  if (key == '2') {
-    // Tohoku
+  if (key == '2' || inByte == 'B') {
+    // North Ridge
     masterState = 2;
     visualizationWall.setState(2);
     mapWall.setState(2);
     activityWall.setState(2);
   }
-  if (key == '3') {
-    // North Ridge
+  if (key == '3' || inByte == 'C') {
+    // Tohoku
     masterState = 3;
     visualizationWall.setState(3);
     mapWall.setState(3);
