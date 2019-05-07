@@ -36,7 +36,6 @@ Serial myPort;
 int inByte;
 
 
-
 void setup() {
   // Processing sketch Spans multiple displays
   // PC is plugged into VGA (display 3)
@@ -53,15 +52,21 @@ void setup() {
   visualizationWall = new VisualizationWall();
 
   printArray(Serial.list());
-  
-  myPort = new Serial(this, Serial.list()[1], 115200);
+  int comPortIndex = 0;
+  if(Serial.list().length >= comPortIndex+1)  {
+      myPort = new Serial(this, Serial.list()[0], 115200);
+      print("Connecting to Serial on: ");
+      println(Serial.list()[comPortIndex]);
+  } else {
+    println("Com port error. Check Serial.list() and comPortIndex in LEDPanelVisulizationWallCacept.pde.");
+    exit();
+  }
+  // start in attractor mode();
+  mapWall.setState(4); // set to attractor
 
 }
 void draw() {
-  //visualizationWall.draw();
-  //activityWall.draw();
-  //mapWall.draw();
-  //translate(1024,0);
+  
   background(0);
   //fill(0);
   //rect(0,0,1024,768);
@@ -70,9 +75,13 @@ void draw() {
   activityWall.draw();
   mapWall.draw();
   drawDebugInfo();
+  //mouse debugger
+  // fill(200);
+  // rect(mouseX, mouseY, 20,20);
+
   copy(0,0,1024,768,1024,0,1024,768);
 
- // Serial
+  // Serial
   while (myPort.available() > 0) {
     inByte = (char)myPort.read();
     //println(inByte);
@@ -92,6 +101,10 @@ void draw() {
       println("D recieved");
       keyPressed(); 
     }
+    if(inByte == 'E') { // Stop Pressed
+      println("E recieved");
+      keyPressed(); 
+    }
     inByte = 0;
   }
   
@@ -99,7 +112,6 @@ void draw() {
 } // end of main draw() 
 
 void keyPressed() {
-  //background(127);
   char serialIn = 'g';
   timer = millis();
   if (key == 'r'|| inByte == 'r') {
@@ -109,35 +121,34 @@ void keyPressed() {
 
   if (key == '0' || inByte == 'D') {
     // stop everything
-    masterState = 0;
     visualizationWall.setState(0);
     mapWall.setState(0);
   }
   if (key == '1' || inByte == 'A') {
     // Scott Mills
-    masterState = 1;
     visualizationWall.setState(1);
     mapWall.setState(1);
     activityWall.setState(1);
   }
   if (key == '2' || inByte == 'B') {
     // North Ridge
-    masterState = 2;
     visualizationWall.setState(2);
     mapWall.setState(2);
     activityWall.setState(2);
   }
   if (key == '3' || inByte == 'C') {
     // Tohoku
-    masterState = 3;
     visualizationWall.setState(3);
     mapWall.setState(3);
     activityWall.setState(3);
   }
   if (key == '4') {
     // turn on all mapwall panel
-    masterState = 4;
     mapWall.setState(4);
+  }
+  if (key == '5') {
+    // turn on all mapwall panel
+    mapWall.setState(5);
   }
   if (key == 'd') {
     // North Ridge

@@ -11,6 +11,9 @@ class MapWall {
   LocationMarker christChurch;
   LocationMarker valdivia;
   int state; // 0 - off , 1 - on, ...
+  long timer;
+  int maxTime;
+  int attractorSelector;
 
   MapWall(int _x, int _y) {
     w = 192;
@@ -19,6 +22,9 @@ class MapWall {
     x = _x;
     y = _y;
     state = 0;
+    timer = 0;
+    maxTime = 3000;
+    attractorSelector = 0;
     andreanof = new LocationMarker(128,0,64,32,"Alaska, Andreanof");
     andreanof.setFrameCounter(200/6*1);
     tohoku = new LocationMarker(64,32,64,64,"Japan, Tohoku");
@@ -55,22 +61,65 @@ class MapWall {
     translate(x, y);
     if(state == 1) {
       // scott mills
-      
       scottMills.update();
       scottMills.draw();
     } else if (state == 2) {
       // north ridge
       losAngeles.update();
       losAngeles.draw();
-      
     } else if (state == 3) {
       // tohoku
-      
-      
       tohoku.update();
       tohoku.draw();
 
     } else if(state == 4) {
+      // Attractor Mode
+      // run timer for 10 seconds
+      if(millis() - timer > maxTime) {
+        timer = millis();
+        // pick a random location
+        // reset it and pulse it.
+        attractorSelector = round(random(6));
+        if(attractorSelector == 0) {
+          scottMills.reset();
+        } else if ( attractorSelector == 1) {
+          losAngeles.reset();
+        } else if (attractorSelector == 2) {
+          tohoku.reset();
+        } else if (attractorSelector == 3) {
+          aceh.reset();
+        } else if (attractorSelector == 4) {
+          andreanof.reset();
+        } else if (attractorSelector == 5) {
+          christChurch.reset();
+        } else if (attractorSelector == 6) {
+          valdivia.reset();
+        }
+      }
+      if(attractorSelector == 0) {
+        scottMills.update();
+        scottMills.draw();
+      } else if (attractorSelector == 1) {
+        losAngeles.update();
+        losAngeles.draw();
+      } else if (attractorSelector == 2) {
+        tohoku.update();
+        tohoku.draw();
+      } else if (attractorSelector == 3) {
+        aceh.update();
+        aceh.draw();
+      } else if (attractorSelector == 4) {
+        andreanof.update();
+        andreanof.draw();
+      } else if (attractorSelector == 5) {
+        christChurch.update();
+        christChurch.draw();
+      } else if (attractorSelector == 6) {
+        valdivia.update();
+        valdivia.draw();
+      }
+      
+    } else if(state == 5) {
       // update all the panels
       andreanof.update();
       tohoku.update();
