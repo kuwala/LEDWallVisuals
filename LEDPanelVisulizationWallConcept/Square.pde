@@ -27,10 +27,6 @@ class Square {
       bri = round(map(elapsedTime, 0, fadeInTime, 0, maxBrightness));
       // draw square
       draw();
-      print(elapsedTime);
-      println("elapsed");
-      print(bri);
-      println("drawing fade in");
 
       if(millis() - timer > fadeInTime) {
         state =2;

@@ -79,7 +79,16 @@ class SpringGraph {
     
     // flick the spring under the cursor as soon as the cursor moves onto it
     if(fullSegments != lastFlickedSpring) {
-      flick(fullSegments,0.35); // Adjustable Here
+      float amount = 0.35;
+      // amount = 0;
+      if(colorType == 1) { // blue 
+        amount = 0.22;
+      } else if(colorType == 2) { // yellow
+        amount = 0.35;
+      } else if(colorType == 3) { // orange
+        amount = 0.08;
+      } 
+      flick(fullSegments,amount); // Adjustable Here
       lastFlickedSpring = fullSegments;
     }
 

@@ -1,2 +1,4 @@
 build-tmp/
+application.windows64/
+application.windows32/
 *.swp

@@ -47,20 +47,26 @@ void setup() {
   frameRate(60);
   colorMode(HSB,255);
   
-  mapWall = new MapWall(800,100);
+  
   activityWall = new ActivityWall(400,0);
   visualizationWall = new VisualizationWall();
+  mapWall = new MapWall(800,100);
+  mapWall.setLabels(visualizationWall.label1,visualizationWall.label2,visualizationWall.label3);
 
   printArray(Serial.list());
-  int comPortIndex = 0;
-  if(Serial.list().length >= comPortIndex+1)  {
-      myPort = new Serial(this, Serial.list()[0], 115200);
+  int comPortIndex = 1;
+    try{
+      myPort = new Serial(this, Serial.list()[comPortIndex], 115200);
       print("Connecting to Serial on: ");
       println(Serial.list()[comPortIndex]);
-  } else {
-    println("Com port error. Check Serial.list() and comPortIndex in LEDPanelVisulizationWallCacept.pde.");
-    exit();
-  }
+    } catch (Exception e) {
+      println("Com port error connecting to teensy. Check Serial.list() and comPortIndex in LEDPanelVisulizationWallCacept.pde.");
+      print("Exception: ");
+      println(e);
+      exit();
+    }
+      
+ 
   // start in attractor mode();
   mapWall.setState(4); // set to attractor
 
@@ -82,8 +88,15 @@ void draw() {
   copy(0,0,1024,768,1024,0,1024,768);
 
   // Serial
+  // if (myPort.available() > 0) {
+  //   inByte = (char)myPort.read();
+  //   println(inByte);
+
+  // }
   while (myPort.available() > 0) {
     inByte = (char)myPort.read();
+
+
     //println(inByte);
     if(inByte == 'A') { // quake 1
       println("A recieved");
@@ -122,7 +135,9 @@ void keyPressed() {
   if (key == '0' || inByte == 'D') {
     // stop everything
     visualizationWall.setState(0);
-    mapWall.setState(0);
+    activityWall.setState(0);
+    mapWall.attractorSetup();
+    mapWall.setState(4);
   }
   if (key == '1' || inByte == 'A') {
     // Scott Mills
@@ -142,8 +157,11 @@ void keyPressed() {
     mapWall.setState(3);
     activityWall.setState(3);
   }
-  if (key == '4') {
-    // turn on all mapwall panel
+  if (key == '4' || inByte == 'E') {
+    // attractor
+    visualizationWall.setState(0);
+    activityWall.setState(0);
+    mapWall.attractorSetup();
     mapWall.setState(4);
   }
   if (key == '5') {

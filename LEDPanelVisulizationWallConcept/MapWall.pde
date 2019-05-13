@@ -10,10 +10,17 @@ class MapWall {
   LocationMarker aceh;
   LocationMarker christChurch;
   LocationMarker valdivia;
+
+ 
   int state; // 0 - off , 1 - on, ...
   long timer;
   int maxTime;
   int attractorSelector;
+  int lastRand;
+  // label references for attractor mode
+  Label label1;
+  Label label2;
+  Label label3;
 
   MapWall(int _x, int _y) {
     w = 192;
@@ -25,6 +32,7 @@ class MapWall {
     timer = 0;
     maxTime = 3000;
     attractorSelector = 0;
+    lastRand = -1;
     andreanof = new LocationMarker(128,0,64,32,"Alaska, Andreanof");
     andreanof.setFrameCounter(200/6*1);
     tohoku = new LocationMarker(64,32,64,64,"Japan, Tohoku");
@@ -33,7 +41,7 @@ class MapWall {
     scottMills.setFrameCounter(200/6*3);
     losAngeles = new LocationMarker(128,32,64,64,"USA, LosAngeles");
     losAngeles.setFrameCounter(200/6*3);
-    losAngeles.setCenterAdjust(12,13);
+    //losAngeles.setCenterAdjust(12,13);
     aceh = new LocationMarker(0,64,64,32, "Indonesia, Aceh");
     aceh.setFrameCounter(200/6*4);
     christChurch = new LocationMarker(64,96,64,32, "New Zealand, ChristChurch");
@@ -43,18 +51,34 @@ class MapWall {
   
 
   }
+  void setLabels(Label _label1, Label _label2, Label _label3) {
+    label1 = _label1;
+    label2 = _label2;
+    label3 = _label3;
+  }
   void setState (int newState) {
     state = newState;
     if (state == 1) {
       scottMills.setColor(24, 240, 255);
       scottMills.reset();
     } else if (state == 2) {
-      losAngeles.setColor(136, 249, 170);
+      losAngeles.setColor(136, 249, 255);
       losAngeles.reset();
     } else if (state == 3) {
-      tohoku.setColor(39,242,170);
+      tohoku.setColor(39,242,255);
       tohoku.reset();
     }
+  }
+  void attractorSetup() {
+      println("attractor setup");
+      scottMills.setColor(0, 0, 255);
+      scottMills.reset();
+
+      losAngeles.setColor(0,0,255);
+      losAngeles.reset();
+
+      tohoku.setColor(0,0,255);
+      tohoku.reset();
   }
   void draw() {
     pushMatrix();
@@ -75,17 +99,31 @@ class MapWall {
     } else if(state == 4) {
       // Attractor Mode
       // run timer for 10 seconds
+
+     
+
       if(millis() - timer > maxTime) {
         timer = millis();
         // pick a random location
         // reset it and pulse it.
         attractorSelector = round(random(6));
+        while(lastRand == attractorSelector) {
+          attractorSelector = round(random(6));
+        }
+        lastRand = attractorSelector;
+        
         if(attractorSelector == 0) {
+          //scottMills.setColor(24, 240, 255);
           scottMills.reset();
+          label1.attractorFadeIn();
         } else if ( attractorSelector == 1) {
+          //losAngeles.setColor(136, 249, 255);
           losAngeles.reset();
+          label2.attractorFadeIn();
         } else if (attractorSelector == 2) {
+          //tohoku.setColor(39,242,255);
           tohoku.reset();
+          label3.attractorFadeIn();
         } else if (attractorSelector == 3) {
           aceh.reset();
         } else if (attractorSelector == 4) {
